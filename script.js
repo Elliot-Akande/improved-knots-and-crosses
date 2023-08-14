@@ -1,16 +1,22 @@
 const PlayerFactory = (name, marker) => {
     const _name = name;
     const _marker = marker;
+    
+    let _score = 0;
 
     const getName = () => _name;
     const getMarker = () => _marker;
+    const getScore = () => _score;
 
     const setName = (name) => _name = name;
+    const addPoint = () => _score++;
 
     return {
         getName,
         getMarker,
+        getScore,
         setName,
+        addPoint,
     };
 }
 
