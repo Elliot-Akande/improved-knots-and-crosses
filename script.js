@@ -53,8 +53,6 @@ const gameBoard = (() => {
 
 
     const play = (row, col, player) => {
-        if (_board[row][col] !== "") return;
-
         _board[row][col] = player.getMarker();
     };
 
@@ -139,6 +137,9 @@ const gameController = (() => {
     const getScore = () => [_player[0].getScore(), _player[1].getScore()];
 
     const playRound = (row, col) => {
+        const board = gameBoard.getBoard();
+        if (board[row][col] !== "") return;
+        
         gameBoard.play(row, col, _activePlayer);
 
         if (!_isRoundOver()) _switchPlayerTurn();
