@@ -62,7 +62,7 @@ const gameBoard = (() => {
     };
 })();
 
-gameController = (() => {
+const gameController = (() => {
     const _eventEmitter = EventEmitterFactory();
     const _player = [
         PlayerFactory("Player One", "X"),
@@ -73,12 +73,7 @@ gameController = (() => {
 
     const _switchPlayerTurn = () => {
         _activePlayer = _activePlayer === _player[0] ? _player[1] : _player[0];
-    };
-
-    const _getEndMessage = (endType) => {
-        if (endType === "tie") return "Tie Game!";
-
-        return `${_activePlayer.getName()} Wins!`;
+        _eventEmitter.emit('activePlayerUpdate', _activePlayer);
     };
 
     const _isGameOver = () => {
@@ -145,25 +140,19 @@ const displayController = (() => {
     const playerTurnDiv = document.querySelector('.turn');
     const boardDiv = document.querySelector('.board');
 
-    const updateScreen = () => {
-        boardDiv.textContent = "";
-
+    const displayGameStart = () => {
         displayPlayerTurn();
-        displayBoardSquares();
-    };
+        initBoard();
+    }
 
-    const displayPlayerTurn = () => {
-        const player = gameController.getActivePlayer();
-        playerTurnDiv.textContent = `${player.getName()}'s turn!`;
-    };
-
-    const displayBoardSquares = () => {
+    const initBoard = (() => {
         const board = gameController.getBoard();
 
         board.forEach((row, rowNum) => {
             row.forEach((cell, colNum) => {
                 const cellButton = document.createElement('button');
                 cellButton.classList.add('cell');
+
                 cellButton.dataset.row = rowNum;
                 cellButton.dataset.col = colNum;
                 cellButton.textContent = cell;
@@ -171,9 +160,45 @@ const displayController = (() => {
                 boardDiv.appendChild(cellButton);
             })
         });
+    });
+
+    const displayPlayerTurn = () => {
+        player = gameController.getActivePlayer();
+        playerTurnDiv.textContent = `${player.getName()}'s turn!`;
     };
 
-    const clickHandlerBoard = (e) => {
+    const updateBoard = () => {
+        const cells = boardDiv.querySelectorAll('.cell');
+        const board = gameController.getBoard();
+
+        cells.forEach(cell => {
+            const row = cell.dataset.row;
+            const col = cell.dataset.col;
+
+            cell.textContent = board[row][col];
+        });
+    };
+
+    const handleGameOver = (endType) => {
+        endType === 'win' ? displayWin() : displayTie();
+        disableBoard();
+    };
+
+    const displayTie = () => {
+        playerTurnDiv.textContent = `Tie Game!`;
+    };
+
+    const displayWin = () => {
+        const player = gameController.getActivePlayer();
+        playerTurnDiv.textContent = `${player.getName()} Wins!`;
+    };
+
+    const disableBoard = () => {
+        const buttons = boardDiv.querySelectorAll('.cell');
+        buttons.forEach(button => button.disabled = true);
+    };
+
+    const clickHandlerCell = (e) => {
         const row = e.target.dataset.row;
         const col = e.target.dataset.col;
 
@@ -181,11 +206,18 @@ const displayController = (() => {
         if (!(row && col)) return;
 
         gameController.playRound(row, col);
-        updateScreen();
+        updateBoard();
     };
 
-    boardDiv.addEventListener('click', clickHandlerBoard);
+    const initEventListeners = () => {
+        const cells = boardDiv.querySelectorAll('.cell');
+        cells.forEach(cell => cell.addEventListener('click', clickHandlerCell));
 
-    updateScreen();
+        gameController.addEventListener('gameOver', handleGameOver);
+        gameController.addEventListener('activePlayerUpdate', displayPlayerTurn);
+    };
+
+    displayGameStart();
+    initEventListeners();
 })();
 
