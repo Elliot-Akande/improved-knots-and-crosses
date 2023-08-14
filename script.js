@@ -81,10 +81,15 @@ gameController = (() => {
         return `${_activePlayer.getName()} Wins!`;
     };
 
-    const _checkGameOver = () => {
-        if (_isWin()) return 'win';
-        if (_isTieGame()) return 'tie';
-
+    const _isGameOver = () => {
+        if (_isWin()) {
+            _eventEmitter.emit('gameOver', 'win');
+            return true;
+        };
+        if (_isTieGame()){
+            _eventEmitter.emit('gameOver', 'tie');
+            return true;
+        };
         return false;
     };
 
@@ -121,11 +126,7 @@ gameController = (() => {
     const playRound = (row, col) => {
         gameBoard.play(row, col, _activePlayer);
 
-        const gameOverType = _checkGameOver();
-        if (!gameOverType) {
-            _switchPlayerTurn();
-            return;
-        }
+        if (!_isGameOver()) _switchPlayerTurn();
     };
 
     return {
