@@ -82,14 +82,14 @@ const gameController = (() => {
         _eventEmitter.emit('activePlayerUpdate', _activePlayer);
     };
 
-    const _isGameOver = () => {
+    const _isRoundOver = () => {
         if (_isWin()) {
             _activePlayer.addPoint();
-            _eventEmitter.emit('gameOver', 'win');
+            _eventEmitter.emit('roundOver', 'win');
             return true;
         };
         if (_isTieGame()) {
-            _eventEmitter.emit('gameOver', 'tie');
+            _eventEmitter.emit('roundOver', 'tie');
             return true;
         };
         return false;
@@ -125,10 +125,12 @@ const gameController = (() => {
 
     const getActivePlayer = () => _activePlayer;
 
+    const getScore = () => [_player[0].getScore(), _player[1].getScore()];
+
     const playRound = (row, col) => {
         gameBoard.play(row, col, _activePlayer);
 
-        if (!_isGameOver()) _switchPlayerTurn();
+        if (!_isRoundOver()) _switchPlayerTurn();
     };
 
     const reset = () => {
@@ -143,6 +145,7 @@ const gameController = (() => {
 
     return {
         getActivePlayer,
+        getScore,
         playRound,
         reset,
         addEventListener,
@@ -152,10 +155,12 @@ const gameController = (() => {
 
 const displayController = (() => {
     const playerTurnDiv = document.querySelector('.turn');
+    const playerScoreDiv = document.querySelector('.score');
     const boardDiv = document.querySelector('.board');
 
     const displayGameStart = () => {
         displayPlayerTurn();
+        displayPlayerScores();
         initBoard();
     }
 
@@ -181,6 +186,11 @@ const displayController = (() => {
         playerTurnDiv.textContent = `${player.getName()}'s turn!`;
     };
 
+    const displayPlayerScores = () => {
+        const score = gameController.getScore();
+        playerScoreDiv.textContent = `${score[0]} - ${score[1]}`;
+    }
+
     const updateBoard = () => {
         const cells = boardDiv.querySelectorAll('.cell');
         const board = gameController.getBoard();
@@ -205,6 +215,7 @@ const displayController = (() => {
     const displayWin = () => {
         const player = gameController.getActivePlayer();
         playerTurnDiv.textContent = `${player.getName()} Wins!`;
+        displayPlayerScores();
     };
 
     const toggleBoardDisabled = () => {
@@ -233,7 +244,7 @@ const displayController = (() => {
         const cells = boardDiv.querySelectorAll('.cell');
         cells.forEach(cell => cell.addEventListener('click', clickHandlerCell));
 
-        gameController.addEventListener('gameOver', handleGameOver);
+        gameController.addEventListener('roundOver', handleGameOver);
         gameController.addEventListener('activePlayerUpdate', displayPlayerTurn);
         gameController.addEventListener('reset', handleReset);
     };
