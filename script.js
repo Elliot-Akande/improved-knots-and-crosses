@@ -14,6 +14,27 @@ const PlayerFactory = (name, marker) => {
     };
 }
 
+const EventEmitterFactory = () => {
+    const _listeners = [];
+
+    const emit = (eventName, data) => {
+        this._listeners
+            .filter(({ name }) => name === eventName)
+            .forEach(({ callback }) => callback.apply(this, [this, ...data]));
+    };
+
+    const on = (name, callback) => {
+        if (typeof callback === 'function' && typeof eventName === 'string') {
+            this._listeners.push({ name, callback })
+        }
+    };
+
+    return {
+        emit,
+        on,
+    };
+}
+
 const gameBoard = (() => {
     const _board = [
         ["", "", "",],
