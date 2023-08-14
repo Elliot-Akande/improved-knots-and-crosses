@@ -86,6 +86,7 @@ const gameController = (() => {
         if (_isWin()) {
             _activePlayer.addPoint();
             _eventEmitter.emit('roundOver', 'win');
+            _checkGameOver();
             return true;
         };
         if (_isTieGame()) {
@@ -121,6 +122,13 @@ const gameController = (() => {
     const _isTieGame = () => {
         const board = gameBoard.getBoard();
         return !board.flat().includes("");
+    };
+
+    const _checkGameOver = () => {
+        score = getScore();
+        if (score[0] === 3 || score[1] === 3) {    //  Best of Three
+            _eventEmitter.emit('gameOver', _activePlayer);
+        }
     };
 
     const getActivePlayer = () => _activePlayer;
