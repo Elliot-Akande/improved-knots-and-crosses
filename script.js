@@ -1,7 +1,7 @@
 const PlayerFactory = (name, marker) => {
     const _name = name;
     const _marker = marker;
-    
+
     let _score = 0;
 
     const getName = () => _name;
@@ -11,12 +11,15 @@ const PlayerFactory = (name, marker) => {
     const setName = (name) => _name = name;
     const addPoint = () => _score++;
 
+    const resetScore = () => _score = 0;
+
     return {
         getName,
         getMarker,
         getScore,
         setName,
         addPoint,
+        resetScore,
     };
 }
 
@@ -141,11 +144,17 @@ const gameController = (() => {
         if (!_isRoundOver()) _switchPlayerTurn();
     };
 
-    const reset = () => {
+    const newRound = () => {
         gameBoard.clear();
         _activePlayer = _player[0];
-        _eventEmitter.emit('reset');
+        _eventEmitter.emit('newRound');
     };
+
+    const newGame = () => {
+        _player.forEach(player => player.resetScore());
+        _eventEmitter.emit('newGame');
+        newRound();
+    }
 
     const addEventListener = (name, callback) => {
         _eventEmitter.on(name, callback);
@@ -155,7 +164,8 @@ const gameController = (() => {
         getActivePlayer,
         getScore,
         playRound,
-        reset,
+        newRound,
+        newGame,
         addEventListener,
         getBoard: gameBoard.getBoard,
     };
@@ -218,14 +228,25 @@ const displayController = (() => {
     };
 
     const handleGameOver = (winner) => {
-        const modalContainer = document.querySelector('.modal-container');
-        const modalText = modalContainer.querySelector('.modal > h1');
+        const modalText = document.querySelector('.modal > h1');
+        modalText.textContent = `${winner.getName()} is the champion!`;
 
         toggleNextButton();
-
-        modalText.textContent = `${winner.getName()} is the champion!`;
-        modalContainer.classList.toggle('hidden');
+        toggleModal();
     };
+
+    const handleNewRound = () => {
+        displayPlayerTurn();
+        updateBoard();
+        toggleNextButton();
+        toggleBoardDisabled();
+    };
+
+    const handleNewGame = () => {
+        toggleModal();
+        toggleNextButton();
+        displayPlayerScores();
+    }
 
     const displayTie = () => {
         playerTurnDiv.textContent = `Tie Game!`;
@@ -237,6 +258,11 @@ const displayController = (() => {
         displayPlayerScores();
     };
 
+    const toggleModal = () => {
+        const modalContainer = document.querySelector('.modal-container');
+        modalContainer.classList.toggle('hidden');
+    }
+
     const toggleBoardDisabled = () => {
         const buttons = boardDiv.querySelectorAll('.cell');
         buttons.forEach(button => button.disabled = !button.disabled);
@@ -246,13 +272,6 @@ const displayController = (() => {
         const nextButton = document.querySelector('.next');
         nextButton.classList.toggle('hidden');
     }
-
-    const handleReset = () => {
-        displayPlayerTurn();
-        updateBoard();
-        toggleNextButton();
-        toggleBoardDisabled();
-    };
 
     const clickHandlerCell = (e) => {
         const row = e.target.dataset.row;
@@ -270,12 +289,16 @@ const displayController = (() => {
         cells.forEach(cell => cell.addEventListener('click', clickHandlerCell));
 
         const nextButton = document.querySelector('.next');
-        nextButton.addEventListener('click', gameController.reset);
+        nextButton.addEventListener('click', gameController.newRound);
+
+        const rematchButton = document.querySelector('.modal > .yes');
+        rematchButton.addEventListener('click', gameController.newGame);
 
         gameController.addEventListener('roundOver', handleRoundOver);
         gameController.addEventListener('gameOver', handleGameOver);
         gameController.addEventListener('activePlayerUpdate', displayPlayerTurn);
-        gameController.addEventListener('reset', handleReset);
+        gameController.addEventListener('newRound', handleNewRound);
+        gameController.addEventListener('newGame', handleNewGame);
     };
 
     displayGameStart();
