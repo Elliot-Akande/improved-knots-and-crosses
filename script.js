@@ -1,7 +1,7 @@
 const PlayerFactory = (name, marker) => {
-    const _name = name;
     const _marker = marker;
-
+    
+    let _name = name;
     let _score = 0;
 
     const getName = () => _name;
@@ -139,7 +139,7 @@ const gameController = (() => {
     const playRound = (row, col) => {
         const board = gameBoard.getBoard();
         if (board[row][col] !== "") return;
-        
+
         gameBoard.play(row, col, _activePlayer);
 
         if (!_isRoundOver()) _switchPlayerTurn();
@@ -157,6 +157,10 @@ const gameController = (() => {
         newRound();
     }
 
+    const setPlayerName = (playerNum, name) => {
+        _player[playerNum].setName(name);
+    }
+
     const addEventListener = (name, callback) => {
         _eventEmitter.on(name, callback);
     }
@@ -167,6 +171,7 @@ const gameController = (() => {
         playRound,
         newRound,
         newGame,
+        setPlayerName,
         addEventListener,
         getBoard: gameBoard.getBoard,
     };
@@ -285,6 +290,34 @@ const displayController = (() => {
         updateBoard();
     };
 
+    const playButtonPressed = (e) => {
+        const header = document.querySelector('header');
+        const form = document.querySelector('form');
+        const button = e.target;
+
+        header.classList.toggle('center');
+        form.classList.toggle('hidden');
+        button.classList.toggle('hidden');
+
+    };
+
+    const startGamePressed = (e) => {
+        e.preventDefault();
+        const playerOneName = document.querySelector('[name="player_one"]').value;
+        const playerTwoName = document.querySelector('[name="player_two"]').value;
+
+        if (playerOneName) gameController.setPlayerName(0, playerOneName);
+        if (playerTwoName) gameController.setPlayerName(1, playerTwoName);
+
+        const form = document.querySelector('form');
+        const container = document.querySelector('.container');
+
+        form.classList.toggle('hidden');
+        container.classList.toggle('hidden');
+
+        displayPlayerTurn();
+    }
+
     const initEventListeners = () => {
         const cells = boardDiv.querySelectorAll('.cell');
         cells.forEach(cell => cell.addEventListener('click', clickHandlerCell));
@@ -294,6 +327,12 @@ const displayController = (() => {
 
         const rematchButton = document.querySelector('.modal > .yes');
         rematchButton.addEventListener('click', gameController.newGame);
+
+        const playButton = document.querySelector('header > .play');
+        playButton.addEventListener('click', playButtonPressed);
+
+        const form = document.querySelector('form');
+        form.addEventListener('submit', startGamePressed);
 
         gameController.addEventListener('roundOver', handleRoundOver);
         gameController.addEventListener('gameOver', handleGameOver);
