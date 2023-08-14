@@ -60,7 +60,7 @@ gameController = (() => {
     };
 
     const _getEndMessage = (endType) => {
-        if(endType === "tie") return "Tie Game!";
+        if (endType === "tie") return "Tie Game!";
 
         return `${_activePlayer.getName()} Wins!`;
     };
@@ -117,6 +117,55 @@ gameController = (() => {
     return {
         getActivePlayer,
         playRound,
+        getBoard: gameBoard.getBoard,
     };
+})();
+
+const displayController = (() => {
+    const playerTurnDiv = document.querySelector('.turn');
+    const boardDiv = document.querySelector('.board');
+
+    const updateScreen = () => {
+        boardDiv.textContent = "";
+
+        displayPlayerTurn();
+        displayBoardSquares();
+    };
+
+    const displayPlayerTurn = () => {
+        const player = gameController.getActivePlayer();
+        playerTurnDiv.textContent = `${player.getName()}'s turn!`;
+    };
+
+    const displayBoardSquares = () => {
+        const board = gameController.getBoard();
+
+        board.forEach((row, rowNum) => {
+            row.forEach((cell, colNum) => {
+                const cellButton = document.createElement('button');
+                cellButton.classList.add('cell');
+                cellButton.dataset.row = rowNum;
+                cellButton.dataset.col = colNum;
+                cellButton.textContent = cell;
+
+                boardDiv.appendChild(cellButton);
+            })
+        });
+    };
+
+    const clickHandlerBoard = (e) => {
+        const row = e.target.dataset.row;
+        const col = e.target.dataset.col;
+
+        //  Make sure cell pressed and not gap between cells
+        if (!(row && col)) return;
+
+        gameController.playRound(row, col);
+        updateScreen();
+    };
+
+    boardDiv.addEventListener('click', clickHandlerBoard);
+
+    updateScreen();
 })();
 
