@@ -84,6 +84,7 @@ const gameController = (() => {
 
     const _isGameOver = () => {
         if (_isWin()) {
+            _activePlayer.addPoint();
             _eventEmitter.emit('gameOver', 'win');
             return true;
         };
