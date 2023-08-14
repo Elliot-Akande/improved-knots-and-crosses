@@ -18,14 +18,14 @@ const EventEmitterFactory = () => {
     const _listeners = [];
 
     const emit = (eventName, data) => {
-        this._listeners
+        _listeners
             .filter(({ name }) => name === eventName)
-            .forEach(({ callback }) => callback.apply(this, [this, ...data]));
+            .forEach(({ callback }) => callback.call(this, data));
     };
 
     const on = (name, callback) => {
-        if (typeof callback === 'function' && typeof eventName === 'string') {
-            this._listeners.push({ name, callback })
+        if (typeof callback === 'function' && typeof name === 'string') {
+            _listeners.push({ name, callback })
         }
     };
 
@@ -86,7 +86,7 @@ gameController = (() => {
             _eventEmitter.emit('gameOver', 'win');
             return true;
         };
-        if (_isTieGame()){
+        if (_isTieGame()) {
             _eventEmitter.emit('gameOver', 'tie');
             return true;
         };
@@ -129,9 +129,14 @@ gameController = (() => {
         if (!_isGameOver()) _switchPlayerTurn();
     };
 
+    const addEventListener = (name, callback) => {
+        _eventEmitter.on(name, callback);
+    }
+
     return {
         getActivePlayer,
         playRound,
+        addEventListener,
         getBoard: gameBoard.getBoard,
     };
 })();
