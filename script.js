@@ -217,7 +217,11 @@ const displayController = (() => {
     };
 
     const handleGameOver = (winner) => {
-        
+        const modalContainer = document.querySelector('.modal-container');
+        const modalText = modalContainer.querySelector('.modal > h1');
+
+        modalText.textContent = `${winner.getName()} is the champion!`;
+        modalContainer.classList.toggle('active');
     };
 
     const displayTie = () => {
