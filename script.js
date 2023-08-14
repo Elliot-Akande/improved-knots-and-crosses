@@ -63,6 +63,7 @@ const gameBoard = (() => {
 })();
 
 gameController = (() => {
+    const _eventEmitter = EventEmitterFactory();
     const _player = [
         PlayerFactory("Player One", "X"),
         PlayerFactory("Player Two", "O")
