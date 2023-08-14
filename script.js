@@ -213,6 +213,7 @@ const displayController = (() => {
 
     const handleRoundOver = (endType) => {
         endType === 'win' ? displayWin() : displayTie();
+        toggleNextButton();
         toggleBoardDisabled();
     };
 
@@ -220,8 +221,10 @@ const displayController = (() => {
         const modalContainer = document.querySelector('.modal-container');
         const modalText = modalContainer.querySelector('.modal > h1');
 
+        toggleNextButton();
+
         modalText.textContent = `${winner.getName()} is the champion!`;
-        modalContainer.classList.toggle('active');
+        modalContainer.classList.toggle('hidden');
     };
 
     const displayTie = () => {
@@ -239,9 +242,15 @@ const displayController = (() => {
         buttons.forEach(button => button.disabled = !button.disabled);
     };
 
+    const toggleNextButton = () => {
+        const nextButton = document.querySelector('.next');
+        nextButton.classList.toggle('hidden');
+    }
+
     const handleReset = () => {
         displayPlayerTurn();
         updateBoard();
+        toggleNextButton();
         toggleBoardDisabled();
     };
 
@@ -259,6 +268,9 @@ const displayController = (() => {
     const initEventListeners = () => {
         const cells = boardDiv.querySelectorAll('.cell');
         cells.forEach(cell => cell.addEventListener('click', clickHandlerCell));
+
+        const nextButton = document.querySelector('.next');
+        nextButton.addEventListener('click', gameController.reset);
 
         gameController.addEventListener('roundOver', handleRoundOver);
         gameController.addEventListener('gameOver', handleGameOver);
