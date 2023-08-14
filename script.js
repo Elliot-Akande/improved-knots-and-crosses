@@ -211,9 +211,13 @@ const displayController = (() => {
         });
     };
 
-    const handleGameOver = (endType) => {
+    const handleRoundOver = (endType) => {
         endType === 'win' ? displayWin() : displayTie();
         toggleBoardDisabled();
+    };
+
+    const handleGameOver = (winner) => {
+        
     };
 
     const displayTie = () => {
@@ -252,7 +256,8 @@ const displayController = (() => {
         const cells = boardDiv.querySelectorAll('.cell');
         cells.forEach(cell => cell.addEventListener('click', clickHandlerCell));
 
-        gameController.addEventListener('roundOver', handleGameOver);
+        gameController.addEventListener('roundOver', handleRoundOver);
+        gameController.addEventListener('gameOver', handleGameOver);
         gameController.addEventListener('activePlayerUpdate', displayPlayerTurn);
         gameController.addEventListener('reset', handleReset);
     };
