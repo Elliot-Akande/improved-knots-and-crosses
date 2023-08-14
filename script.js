@@ -70,8 +70,6 @@ gameController = (() => {
 
     let _activePlayer = _player[0];
 
-    const getActivePlayer = () => _activePlayer;
-
     const _switchPlayerTurn = () => {
         _activePlayer = _activePlayer === _player[0] ? _player[1] : _player[0];
     };
@@ -84,20 +82,6 @@ gameController = (() => {
         if (endType === "tie") return "Tie Game!";
 
         return `${_activePlayer.getName()} Wins!`;
-    };
-
-    const playRound = (row, col) => {
-        gameBoard.play(row, col, _activePlayer);
-
-        const gameOverType = _checkGameOver();
-        if (!gameOverType) {
-            _switchPlayerTurn();
-            console.log(_getNewRoundMessage());
-            console.table(gameBoard.getBoard());
-            return;
-        }
-
-        console.log(_getEndMessage(gameOverType));
     };
 
     const _checkGameOver = () => {
@@ -133,6 +117,22 @@ gameController = (() => {
     const _isTieGame = () => {
         const board = gameBoard.getBoard();
         return !board.flat().includes("");
+    };
+
+    const getActivePlayer = () => _activePlayer;
+
+    const playRound = (row, col) => {
+        gameBoard.play(row, col, _activePlayer);
+
+        const gameOverType = _checkGameOver();
+        if (!gameOverType) {
+            _switchPlayerTurn();
+            console.log(_getNewRoundMessage());
+            console.table(gameBoard.getBoard());
+            return;
+        }
+
+        console.log(_getEndMessage(gameOverType));
     };
 
     return {
