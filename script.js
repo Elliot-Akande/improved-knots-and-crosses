@@ -75,10 +75,6 @@ gameController = (() => {
         _activePlayer = _activePlayer === _player[0] ? _player[1] : _player[0];
     };
 
-    const _getNewRoundMessage = () => {
-        return `${_activePlayer.getName()}'s turn!`;
-    };
-
     const _getEndMessage = (endType) => {
         if (endType === "tie") return "Tie Game!";
 
@@ -128,12 +124,8 @@ gameController = (() => {
         const gameOverType = _checkGameOver();
         if (!gameOverType) {
             _switchPlayerTurn();
-            console.log(_getNewRoundMessage());
-            console.table(gameBoard.getBoard());
             return;
         }
-
-        console.log(_getEndMessage(gameOverType));
     };
 
     return {
