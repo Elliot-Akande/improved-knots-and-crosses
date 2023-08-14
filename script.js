@@ -124,6 +124,12 @@ const gameController = (() => {
         if (!_isGameOver()) _switchPlayerTurn();
     };
 
+    const reset = () => {
+        gameBoard.clear();
+        _activePlayer = _player[0];
+        _eventEmitter.emit('reset');
+    };
+
     const addEventListener = (name, callback) => {
         _eventEmitter.on(name, callback);
     }
@@ -131,6 +137,7 @@ const gameController = (() => {
     return {
         getActivePlayer,
         playRound,
+        reset,
         addEventListener,
         getBoard: gameBoard.getBoard,
     };
@@ -181,7 +188,7 @@ const displayController = (() => {
 
     const handleGameOver = (endType) => {
         endType === 'win' ? displayWin() : displayTie();
-        disableBoard();
+        toggleBoardDisabled();
     };
 
     const displayTie = () => {
@@ -193,9 +200,15 @@ const displayController = (() => {
         playerTurnDiv.textContent = `${player.getName()} Wins!`;
     };
 
-    const disableBoard = () => {
+    const toggleBoardDisabled = () => {
         const buttons = boardDiv.querySelectorAll('.cell');
-        buttons.forEach(button => button.disabled = true);
+        buttons.forEach(button => button.disabled = !button.disabled);
+    };
+
+    const handleReset = () => {
+        displayPlayerTurn();
+        updateBoard();
+        toggleBoardDisabled();
     };
 
     const clickHandlerCell = (e) => {
@@ -215,6 +228,7 @@ const displayController = (() => {
 
         gameController.addEventListener('gameOver', handleGameOver);
         gameController.addEventListener('activePlayerUpdate', displayPlayerTurn);
+        gameController.addEventListener('reset', handleReset);
     };
 
     displayGameStart();
