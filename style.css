@@ -255,7 +255,7 @@ h1 {
 }
 
 footer {
-    font-size: 20px;
+    font-size: min(20px, 5vw);
     margin: 6px 12px;
 }
 

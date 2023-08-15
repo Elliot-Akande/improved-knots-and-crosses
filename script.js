@@ -255,6 +255,7 @@ const displayController = (() => {
     };
 
     const handleNewRound = () => {
+        window.scrollTo({top: 0, behavior: "smooth"});
         const winningCells = document.querySelectorAll('.cell.winning-cell');
         winningCells.forEach(cell => cell.classList.toggle('winning-cell'));
         playerTurnDiv.classList.toggle('turn-over');
