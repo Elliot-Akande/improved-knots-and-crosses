@@ -1,10 +1,15 @@
 @import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Caveat+Brush&family=Permanent+Marker&display=swap');
 
+:root {
+    --white: hsl(0, 100%, 97%);
+}
+
 html,
 body {
     margin: 0;
     height: 100%;
     font-family: 'Permanent Marker', sans-serif;
+    background-color: var(--white);
 }
 
 button,
@@ -45,7 +50,7 @@ header button,
     padding: 15px 30px;
     transition: 0.2s;
 
-    background: white;
+    background: var(--white);
     color: lightcoral;
     font-size: 2rem;
     text-shadow: 3px 3px black;
@@ -80,6 +85,7 @@ input {
     font-size: 1.2rem;
     appearance: none;
     transition: 0.2s;
+    background-color: var(--white);
 }
 
 input:hover {
@@ -162,7 +168,7 @@ h1 {
     align-items: center;
     text-align: center;
     font-style: 2rem;
-    background: rgb(228, 228, 228);
+    background: rgb(217 102 102 / 9%);
     color: black;
     border: none;
     border-radius: 7px;
@@ -206,7 +212,7 @@ h1 {
     padding: 30px;
 
     border-radius: 5px;    
-    background: white;
+    background: var(--white);
 }
 
 .modal>h1 {
@@ -228,4 +234,16 @@ h1 {
 
 .hidden {
     display: none;
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    right: 10px;
+    font-size: 20px;
+}
+
+footer p {
+    color: rgba(240, 128, 128, 0.662);
+    margin: 6px;
 }
