@@ -112,22 +112,23 @@ header>form {
     width: min(300px, 80vw);
 }
 
-header h3 {
+header label {
+    display: block;
     position: relative;
     font-size: min(2rem, 8vw);
 }
 
-header h3::after {
+header label::after {
     position: absolute;
     right: 3px;
     text-shadow: 2px 2px lightcoral;
 }
 
-header .player_one>h3::after {
+header .player_one>label::after {
     content: 'X';
 }
 
-header .player_two>h3::after {
+header .player_two>label::after {
     content: 'O';
 }
 
