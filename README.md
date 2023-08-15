@@ -9,5 +9,5 @@ In the past I had tackled this same challenge ([Old Version](https://elliot-akan
 Thank you for taking the time to view my project! 
 All criticism is welcome.
 
-[Live Demo](https://elliot-akande.github.io/improved-noughts-and-crosses/) :point_left:
+[Live Demo](https://elliot-akande.github.io/noughts-and-crosses/) :point_left:
   
