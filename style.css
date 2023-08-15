@@ -15,6 +15,7 @@ body {
 }
 
 body .main-content {
+    padding: 0 20px;
     flex: 1;
 }
 
@@ -151,6 +152,7 @@ h1 {
 .turn {
     text-align: center;
     transition: 0.4s;
+    word-break: break-word;
 }
 
 .turn-over {
@@ -230,6 +232,7 @@ h1 {
     font-size: 2.5rem;
     text-align: center;
     text-shadow: 2px 2px lightcoral;
+    word-break: break-word;
 }
 
 .modal>div {
