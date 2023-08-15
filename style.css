@@ -41,7 +41,7 @@ header.center {
 header>h1 {
     text-align: center;
     text-shadow: 3px 3px lightcoral;
-    font-size: min(8rem, 11vw);
+    font-size: min(8rem, 10vw);
     white-space: nowrap;
     margin-inline: 50px;
 
