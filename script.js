@@ -1,6 +1,6 @@
 const PlayerFactory = (name, marker) => {
     const _marker = marker;
-    
+
     let _name = name;
     let _score = 0;
 
@@ -103,19 +103,31 @@ const gameController = (() => {
 
         for (let i = 0; i < 3; i++) {
             //  Check rows
-            if (board[i].every(cell => cell === marker)) return true;
+            if (board[i].every(cell => cell === marker)) {
+                _eventEmitter.emit('winFound', { row: i });
+                return true;
+            };
 
             //  Check columns
             const col = board.map(elem => elem[i]);
-            if (col.every(cell => cell === marker)) return true;
+            if (col.every(cell => cell === marker)) {
+                _eventEmitter.emit('winFound', { col: i });
+                return true;
+            };
         }
 
         //  Check diagonals
         const diagOne = [board[0][0], board[1][1], board[2][2]];
-        if (diagOne.every(cell => cell === marker)) return true;
+        if (diagOne.every(cell => cell === marker)) {
+            _eventEmitter.emit('winFound', { diag: 1 });
+            return true;
+        };
 
         const diagTwo = [board[0][2], board[1][1], board[2][0]];
-        if (diagTwo.every(cell => cell === marker)) return true;
+        if (diagTwo.every(cell => cell === marker)) {
+            _eventEmitter.emit('winFound', { diag: 2 });
+            return true;
+        };
 
         return false;
     };
@@ -229,6 +241,7 @@ const displayController = (() => {
 
     const handleRoundOver = (endType) => {
         endType === 'win' ? displayWin() : displayTie();
+        playerTurnDiv.classList.toggle('turn-over');
         toggleNextButton();
         toggleBoardDisabled();
     };
@@ -242,17 +255,48 @@ const displayController = (() => {
     };
 
     const handleNewRound = () => {
+        const winningCells = document.querySelectorAll('.cell.winning-cell');
+        winningCells.forEach(cell => cell.classList.toggle('winning-cell'));
+        playerTurnDiv.classList.toggle('turn-over');
         displayPlayerTurn();
         updateBoard();
         toggleNextButton();
         toggleBoardDisabled();
     };
 
+    const handleWinFound = (data) => {
+        const cells = [];
+        if (!isNaN(data.row)) {
+            cells.push({ row: data.row, col: 0 });
+            cells.push({ row: data.row, col: 1 });
+            cells.push({ row: data.row, col: 2 });
+        } else if (!isNaN(data.col)) {
+            cells.push({ row: 0, col: data.col });
+            cells.push({ row: 1, col: data.col });
+            cells.push({ row: 2, col: data.col });
+        } else {
+            if (data.diag === 1) {
+                cells.push({ row: 0, col: 0 });
+                cells.push({ row: 1, col: 1 });
+                cells.push({ row: 2, col: 2 });
+            } else {
+                cells.push({ row: 0, col: 2 });
+                cells.push({ row: 1, col: 1 });
+                cells.push({ row: 2, col: 0 });
+            }
+        }
+
+        cells.forEach(cell => {
+            const cellButton = document.querySelector('button.cell[data-row="' + cell.row + '"][data-col="' + cell.col + '"]');
+            cellButton.classList.toggle('winning-cell');
+        })
+    };
+
     const handleNewGame = () => {
         toggleModal();
         toggleNextButton();
         displayPlayerScores();
-    }
+    };
 
     const displayTie = () => {
         playerTurnDiv.textContent = `Tie Game!`;
@@ -339,6 +383,7 @@ const displayController = (() => {
         gameController.addEventListener('activePlayerUpdate', displayPlayerTurn);
         gameController.addEventListener('newRound', handleNewRound);
         gameController.addEventListener('newGame', handleNewGame);
+        gameController.addEventListener('winFound', handleWinFound);
     };
 
     displayGameStart();
