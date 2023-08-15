@@ -7,6 +7,19 @@ body {
     font-family: 'Permanent Marker', sans-serif;
 }
 
+/* body::before {
+    content: '';
+    background-image: linear-gradient(#00000000, #ffffff),url('images/background.jpg');
+    background-size: cover;
+    opacity: 0.8;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+} */
+
 button,
 input {
     font-family: inherit;
@@ -20,10 +33,11 @@ header {
 
     padding-top: 50px;
     transition: 0.5s;
+    
 }
 
 header.center {
-    padding-top: 40vh;
+    padding-top: 35vh;
 }
 
 header > h1 { 
@@ -33,6 +47,82 @@ header > h1 {
     /* font-family: 'Berkshire Swash', sans-serif; */
     
     margin-bottom: 0;
+}
+
+header button {
+    border: 4px solid black;
+    border-radius: 7px;
+    width: 300px;
+    padding: 15px 30px;
+    transition: 0.2s;
+    
+    background: white;
+    color: lightcoral;
+    font-size: 2rem;
+    text-shadow: 3px 3px black;
+}
+
+header button:hover,
+header button:focus {
+    transform: scale(1.05);
+    box-shadow: 3px 3px lightcoral;
+    outline: none;
+}
+
+header button:active {
+    transform: scale(0.97);
+    box-shadow: none;
+}
+
+form * {
+    margin: 0;
+    width: 100%
+    
+}
+
+input { 
+    box-sizing: border-box;
+    border: 4px solid black;
+    border-radius: 7px;
+    padding: 4px 8px;
+    font-size: 1rem;
+    appearance: none;
+    transition: 0.2s;
+}
+
+input:hover {
+    background-color: rgba(240, 128, 128, 0.217);
+}
+
+input:focus {
+    box-shadow: 3px 3px lightcoral;
+    transform: scale(1.03);
+    outline: none;
+}
+
+header > form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+header h3{
+    position: relative;
+    font-size: 2rem;
+}
+
+header h3::after {
+    position: absolute;
+    right: 3px;
+    text-shadow: 2px 2px lightcoral;
+}
+
+header .player_one>h3::after {
+    content: 'X';
+}
+
+header .player_two>h3::after {
+    content: 'O';
 }
 
 h1 {
