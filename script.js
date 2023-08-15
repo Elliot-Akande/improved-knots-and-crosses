@@ -159,7 +159,7 @@ const gameController = (() => {
 
     const newRound = () => {
         gameBoard.clear();
-        _activePlayer = _player[0];
+        _switchPlayerTurn();
         _eventEmitter.emit('newRound');
     };
 
