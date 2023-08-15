@@ -1,4 +1,8 @@
-# improved-knots-and-crosses
+# Improved Knots & Crosses
 
-Photo by <a href="https://unsplash.com/@creativejunkie?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Vincent Burkhead</a> on <a href="https://unsplash.com/photos/LhlxYMfnTF0?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+This webpage allows users play the game knots and crosses (best of three).
+
+It was created to put to practice what I had learned in covering the *JavaScript **Factory** and **Module** patterns*.
+
+[Live Demo](https://elliot-akande.github.io/improved-knots-and-crosses/) :point_left:
   
