@@ -345,6 +345,10 @@ const displayController = (() => {
 
     };
 
+    const homeButtonPressed = () => {
+        location.reload();
+    }
+
     const startGamePressed = (e) => {
         e.preventDefault();
         const playerOneName = document.querySelector('[name="player_one"]').value;
@@ -369,8 +373,11 @@ const displayController = (() => {
         const nextButton = document.querySelector('.next');
         nextButton.addEventListener('click', gameController.newRound);
 
-        const rematchButton = document.querySelector('.modal > .yes');
+        const rematchButton = document.querySelector('.modal .yes');
         rematchButton.addEventListener('click', gameController.newGame);
+
+        const homeButton = document.querySelector('.modal .no');
+        homeButton.addEventListener('click', homeButtonPressed);
 
         const playButton = document.querySelector('header > .play');
         playButton.addEventListener('click', playButtonPressed);
