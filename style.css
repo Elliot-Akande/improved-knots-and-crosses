@@ -6,10 +6,16 @@
 
 html,
 body {
+    display: flex;
+    flex-direction: column;
     margin: 0;
     height: 100%;
     font-family: 'Permanent Marker', sans-serif;
     background-color: var(--white);
+}
+
+body .main-content {
+    flex: 1;
 }
 
 button,
@@ -23,7 +29,7 @@ header {
     align-items: center;
     gap: 20px;
 
-    padding-top: min(50px, 10vw);
+    padding-top: min(50px, 4vw);
     transition: 0.5s;
 }
 
@@ -170,13 +176,12 @@ h1 {
     justify-content: center;
     align-items: center;
     text-align: center;
-    font-style: 2rem;
     background: rgb(217 102 102 / 9%);
     color: black;
     border: none;
     border-radius: 7px;
     transition: 0.2s;
-    font-size: 5rem;
+    font-size: min(5rem, 15vw);
 }
 
 .cell:hover:enabled,
@@ -240,13 +245,11 @@ h1 {
 }
 
 footer {
-    position: absolute;
-    bottom: 0;
-    right: 10px;
     font-size: 20px;
 }
 
 footer p {
     color: rgba(240, 128, 128, 0.662);
-    margin: 6px;
+    margin: 6px 12px;
+    text-align: right;
 }
