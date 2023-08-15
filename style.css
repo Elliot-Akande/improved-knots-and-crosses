@@ -25,7 +25,6 @@ header {
 
     padding-top: 50px;
     transition: 0.5s;
-
 }
 
 header.center {
@@ -35,8 +34,9 @@ header.center {
 header>h1 {
     text-align: center;
     text-shadow: 3px 3px lightcoral;
-    font-size: 8rem;
-    /* font-family: 'Berkshire Swash', sans-serif; */
+    font-size: min(8rem, 11vw);
+    white-space: nowrap;
+    margin-inline: 50px;
 
     margin-bottom: 0;
 }
