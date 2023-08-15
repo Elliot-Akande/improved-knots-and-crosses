@@ -1,7 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Berkshire+Swash&family=Caveat+Brush&family=Permanent+Marker&display=swap');
+
 html,
 body {
     margin: 0;
     height: 100%;
+    font-family: 'Permanent Marker', sans-serif;
+}
+
+button,
+input {
+    font-family: inherit;
 }
 
 header {
@@ -22,6 +30,7 @@ header > h1 {
     text-align: center;
     text-shadow: 3px 3px lightcoral;
     font-size: 8rem;
+    /* font-family: 'Berkshire Swash', sans-serif; */
     
     margin-bottom: 0;
 }
@@ -57,6 +66,7 @@ h1 {
     border: none;
     border-radius: 20px;
     transition: 0.2s;
+    font-size: 5rem;
 }
 
 .cell:hover:enabled {
