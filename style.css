@@ -115,7 +115,7 @@ header>form {
 header label {
     display: block;
     position: relative;
-    font-size: min(2rem, 8vw);
+    font-size: min(2rem, 7vw);
 }
 
 header label::after {
