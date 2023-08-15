@@ -6,7 +6,8 @@ It was created to put to practice what I had learned in covering the *JavaScript
 
 In the past I had tackled this same challenge ([Old Version Live](https://elliot-akande.github.io/improved-knots-and-crosses/)), creating a similar knots and crosses webpage. However, after growing more in programming ability, I decided to give it another go to create a webpage that is more representative of my current skill set.
 
-Thank you for taking the time to view my project! Any criticism is welcome.
+Thank you for taking the time to view my project! 
+All criticism is welcome.
 
 [Live Demo](https://elliot-akande.github.io/improved-knots-and-crosses/) :point_left:
   
