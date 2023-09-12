@@ -1,4 +1,4 @@
-# Noughts & Crosses
+# 🎲❌⭕ Noughts & Crosses
 
 This webpage allows users play the game Noughts and crosses (best of three).
 
